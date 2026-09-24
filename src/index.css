@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Vercel/Geist structure, reconciled with Optimus's measured warm ink */
+  --background: 60 14% 98%;     /* #fafaf9 — Optimus canvas */
+  --foreground: 20 45% 2%;      /* #080503 — Optimus ink */
+  --card: 0 0% 100%;            /* #ffffff elevated */
+  --card-foreground: 20 45% 2%;
+
+  --border: 40 12% 85%;         /* #dad7d0 — Optimus border */
+  --border-soft: 40 12% 91%;
+
+  --muted: 40 12% 93%;
+  --muted-foreground: 20 8% 32%;
+  --faint: 20 5% 55%;
+
+  --primary: 20 45% 2%;         /* matches --foreground */
+  --primary-foreground: 60 14% 98%;
+
+  --accent: 212 100% 48%;       /* #0070f3 link blue */
+  --accent-deep: 213 89% 43%;   /* #0761d1 */
+  --accent-soft: 214 100% 91%;  /* #d3e5ff */
+
+  --gradient-develop-start: 211 100% 48%;
+  --gradient-develop-end: 175 100% 44%;
+  --gradient-preview-start: 273 62% 47%;
+  --gradient-preview-end: 328 100% 50%;
+  --gradient-ship-start: 0 100% 65%;
+  --gradient-ship-end: 45 95% 58%;
+
+  --radius: 12px;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+::selection {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+@keyframes parallax-pan {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(var(--pan-y, 0));
+  }
+}
+
+.animate-parallax-pan {
+  animation: parallax-pan var(--pan-duration, 18s) cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
