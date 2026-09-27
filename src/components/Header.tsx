@@ -15,7 +15,8 @@ const navItems = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  // Netlify serves pages with a trailing slash ("/about/"), so compare without it.
+  const pathname = useLocation().pathname.replace(/\/+$/, "") || "/";
   const workInView = useWorkInView();
 
   function isActive(href: string) {

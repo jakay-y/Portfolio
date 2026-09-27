@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://justicenweke.com/sitemap.xml
+Sitemap: https://justiceenweke.netlify.app/sitemap.xml

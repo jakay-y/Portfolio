@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { PAGE_META, SITE_URL, metaFor } from "@/data/seo";
+import { PAGE_META, SITE_URL, canonicalUrl, metaFor } from "@/data/seo";
 
 function setTag(selector: string, attr: "content" | "href", value: string) {
   const el = document.head.querySelector(selector);
@@ -7,12 +7,14 @@ function setTag(selector: string, attr: "content" | "href", value: string) {
 }
 
 /** Keeps <title>, description, canonical and OG tags in step with client-side navigation. */
-export function usePageMeta(pathname: string) {
+export function usePageMeta(rawPathname: string) {
+  // Netlify serves pages with a trailing slash ("/about/"); meta is keyed without it.
+  const pathname = rawPathname.replace(/\/+$/, "") || "/";
   useEffect(() => {
     const known = PAGE_META.some((m) => m.path === pathname);
     const meta = metaFor(pathname);
     const title = known ? meta.title : "Not found — Justice Nweke";
-    const url = `${SITE_URL}${pathname}`;
+    const url = canonicalUrl(pathname);
     document.title = title;
     setTag('meta[name="description"]', "content", meta.description);
     setTag('link[rel="canonical"]', "href", url);

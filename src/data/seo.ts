@@ -5,7 +5,7 @@
  */
 
 /** Production origin, used for canonical URLs and absolute og:image links. */
-export const SITE_URL = "https://justicenweke.com";
+export const SITE_URL = "https://justiceenweke.netlify.app";
 
 export interface PageMeta {
   path: string;
@@ -73,6 +73,11 @@ export const PAGE_META: PageMeta[] = [
     image: `/og/${p.slug}.png`,
   })),
 ];
+
+/** Absolute URL as Netlify serves it — pretty URLs add a trailing slash to every page but "/". */
+export function canonicalUrl(path: string) {
+  return `${SITE_URL}${path === "/" || path.endsWith("/") ? path : `${path}/`}`;
+}
 
 export function metaFor(path: string): PageMeta {
   return PAGE_META.find((m) => m.path === path) ?? DEFAULT_META;

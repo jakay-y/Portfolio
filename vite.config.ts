@@ -3,7 +3,7 @@ import { defineConfig, type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { DEFAULT_META, PAGE_META, SITE_URL, type PageMeta } from './src/data/seo.ts'
+import { DEFAULT_META, PAGE_META, SITE_URL, canonicalUrl, type PageMeta } from './src/data/seo.ts'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -12,7 +12,7 @@ function escapeHtml(value: string) {
 }
 
 function metaTags(meta: PageMeta) {
-  const url = `${SITE_URL}${meta.path}`
+  const url = canonicalUrl(meta.path)
   const image = `${SITE_URL}${meta.image}`
   const t = escapeHtml(meta.title)
   const d = escapeHtml(meta.description)
@@ -56,7 +56,7 @@ function perRouteMeta(): Plugin {
       const indexPath = path.join(outDir, 'index.html')
       if (!fs.existsSync(indexPath)) return
       const html = fs.readFileSync(indexPath, 'utf8')
-      const urls = PAGE_META.map((m) => `  <url><loc>${SITE_URL}${m.path}</loc></url>`).join('\n')
+      const urls = PAGE_META.map((m) => `  <url><loc>${canonicalUrl(m.path)}</loc></url>`).join('\n')
       fs.writeFileSync(
         path.join(outDir, 'sitemap.xml'),
         `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,

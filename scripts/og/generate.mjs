@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { DEFAULT_META, SEO_PROJECTS } from "../../src/data/seo.ts";
+import { DEFAULT_META, SEO_PROJECTS, SITE_URL } from "../../src/data/seo.ts";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const require = createRequire(import.meta.url);
@@ -51,7 +51,7 @@ function defaultCard() {
       <p class="line">From Figma to production.<br/><span class="muted">No handoff.</span></p>
     </div>
     <img src="${dataUrl("public/hero-poster.webp", "image/webp")}" style="width:430px;height:430px;flex:none;margin-right:-10px" />
-    <p class="foot"><span class="dot"></span>justicenweke.com</p>
+    <p class="foot"><span class="dot"></span>${new URL(SITE_URL).host}</p>
   </div>`;
 }
 
