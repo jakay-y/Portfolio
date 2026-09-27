@@ -56,11 +56,9 @@ function CarouselCard({ project, index, position, isActive, reduce, onSelect, on
   const opacity = useTransform(d, (v) => 1 - clamp(Math.abs(v) - 1.3, 0, 1));
   const zIndex = useTransform(d, (v) => 100 - Math.round(Math.abs(v) * 10));
   const pointerEvents = useTransform(d, (v) => (Math.abs(v) > 2 ? "none" : "auto"));
-  const filter = useTransform(d, (v) => {
-    if (reduce) return "none";
-    const depth = Math.min(Math.abs(v), 2);
-    return `blur(${depth * 2.5}px) brightness(${1 - depth * 0.05})`;
-  });
+  // Depth "fog": an overlay fading in on cards further back. Opacity composites cheaply —
+  // an animated blur()/brightness() filter repainted every card on every scroll frame.
+  const fog = useTransform(d, (v) => (reduce ? 0 : Math.min(Math.abs(v), 2) * 0.22));
   // Inner parallax: the screenshot slides against the card's own motion.
   const shift = useTransform(d, (v) => `${clamp(v, -2, 2) * -5}%`);
   const shadowOpacity = useTransform(d, (v) => 0.5 - Math.min(Math.abs(v), 1.5) * 0.25);
@@ -76,8 +74,8 @@ function CarouselCard({ project, index, position, isActive, reduce, onSelect, on
     // Each card carries its own perspective and the stage stays flat, so cards stack strictly by
     // zIndex — overlapping neighbours never slice through each other mid-transition.
     <motion.div
-      className="absolute inset-0"
-      style={{ x, z, rotateY, opacity, zIndex, filter, pointerEvents, transformPerspective: 1600 }}
+      className="absolute inset-0 will-change-transform"
+      style={{ x, z, rotateY, opacity, zIndex, pointerEvents, transformPerspective: 1600 }}
     >
       {/* Floor shadow — reads the card as an object standing on a surface. */}
       <motion.div
@@ -111,6 +109,7 @@ function CarouselCard({ project, index, position, isActive, reduce, onSelect, on
               data-vt={isActive ? name : undefined}
             >
               <ProjectFrame project={project} shift={shift} />
+              <motion.div aria-hidden className="pointer-events-none absolute inset-0 bg-background" style={{ opacity: fog }} />
             </div>
           </div>
         </div>
@@ -260,6 +259,20 @@ export function ProjectCarousel3D({ projects }: ProjectCarousel3DProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
+  // Fetch and decode every card image during idle time, so nothing decodes mid-scroll.
+  useEffect(() => {
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500));
+    const cancel = window.cancelIdleCallback ?? window.clearTimeout;
+    const id = idle(() => {
+      for (const p of projects) {
+        const img = new Image();
+        img.src = previewSrc(p);
+        img.decode().catch(() => undefined);
+      }
+    });
+    return () => cancel(id);
+  }, [projects]);
+
   // Warm the cache for the neighbours of the active project.
   useEffect(() => {
     for (const i of [active - 1, active + 1]) {
@@ -358,9 +371,9 @@ export function ProjectCarousel3D({ projects }: ProjectCarousel3DProps) {
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={current.slug}
-                  initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: motionTokens.duration.small, ease: EASE_OUT }}
                 >
                   <span className="font-mono text-sm text-faint">

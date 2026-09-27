@@ -1,11 +1,11 @@
 import { lazy, Suspense, useEffect, useRef, useState, type RefObject } from "react";
-import { HERO_POSTER_SRC } from "./useHero";
+import { HERO_POSTER_SRC, loadHeroScene } from "./useHero";
 import { motion, type MotionValue } from "motion/react";
 import { cn } from "@/lib/utils";
 import type { HeroControls, HeroPointer } from "./heroControls";
 
 // three.js + R3F live in their own chunk; nothing 3D blocks first paint.
-const HeroScene = lazy(() => import("./HeroScene"));
+const HeroScene = lazy(loadHeroScene);
 
 interface HeroCanvasLayerProps {
   controls: RefObject<HeroControls>;

@@ -19,7 +19,7 @@ import { motionTokens } from "@/lib/motion-tokens";
 import { cn } from "@/lib/utils";
 import { createHeroControls, OBJECT_FILL, SEPARATION_GAP, type HeroControls } from "./heroControls";
 import { HeroCanvasLayer, HeroPoster } from "./HeroObject";
-import { HERO_POSTER_SRC, useHeroPointer, useHeroSupport } from "./useHero";
+import { HERO_POSTER_SRC, loadHeroScene, useHeroPointer, useHeroSupport } from "./useHero";
 
 const DESIGN_ITEMS = ["Brand Identity", "UI / UX Design", "Design Systems", "Prototyping in Figma"];
 const BUILD_ITEMS = ["Marketing Websites", "Web Apps & Dashboards", "Full-stack Products", "React · Next.js · Supabase"];
@@ -255,6 +255,10 @@ export function HeroSequence() {
   // Mount the WebGL scene only once the loader has lifted and the main thread is idle —
   // the poster is already showing, so first load never waits on three.js.
   const [mountScene, setMountScene] = useState(false);
+  // Fetch + parse three.js while the loader is up (its motion runs on the compositor, so this is free).
+  useEffect(() => {
+    if (mode === "webgl") void loadHeroScene();
+  }, [mode]);
   useEffect(() => {
     if (!introDone || mode !== "webgl") return;
     const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
@@ -303,7 +307,8 @@ export function HeroSequence() {
     const y = through(progress.get(), T.toCenter, T.toFused, layoutRef.current.y);
     // While the section scrolls away, counter ~70% of that motion: the object drifts up gently
     // and lingers mid-screen, so the carousel rises to meet it instead of leaving a gap.
-    return y - anchorSize.get() / 2 + exit.get() * window.innerHeight * 0.7;
+    // (Less on phones, where the payoff line sits just below the object.)
+    return y - anchorSize.get() / 2 + exit.get() * window.innerHeight * (window.innerWidth < 768 ? 0.35 : 0.7);
   });
 
   // Object controls follow the timeline (the render loop damps toward them).
@@ -333,7 +338,8 @@ export function HeroSequence() {
   const statementOpacity = useTransform(progress, statementRange, [0, 1, 1, 0]);
   const statementY = useTransform(progress, statementRange, [20, 0, 0, -24]);
   // Stage 3 payoff line.
-  const payoffOpacity = useTransform(() => lerpAt(progress.get(), T.payoffIn, [0, 1]) * (1 - lerpAt(exit.get(), [0, 0.35], [0, 1])));
+  // Gone early in the unpin, before the object can drift across it.
+  const payoffOpacity = useTransform(() => lerpAt(progress.get(), T.payoffIn, [0, 1]) * (1 - lerpAt(exit.get(), [0, 0.15], [0, 1])));
   const payoffY = useTransform(progress, T.payoffIn, [16, 0]);
   // Shared contact shadow: widens as the halves part (desktop), steps aside for vertical halves (mobile), fades on exit.
   const shadowSpread = useTransform(() => 1 + lerpAt(progress.get(), [T.open[0], T.open[1], T.close[0], T.close[1]], [0, 1, 1, 0]) * 0.6);
@@ -432,7 +438,7 @@ export function HeroSequence() {
         {/* Stage 3 — payoff */}
         <motion.p
           className="pointer-events-none absolute inset-x-6 text-center font-heading text-[clamp(1.25rem,2vw,1.75rem)] font-medium tracking-[-0.02em]"
-          style={{ top: viewport.mobile ? viewport.h * 0.66 : layout.y[2] + layout.size[2] * 0.46 + 12, opacity: payoffOpacity, y: payoffY }}
+          style={{ top: layout.y[2] + layout.size[2] * 0.46 + 12, opacity: payoffOpacity, y: payoffY }}
         >
           Here’s what that looks like.
         </motion.p>

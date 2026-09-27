@@ -184,7 +184,8 @@ export function LoadingScreen() {
       {/* Hairline progress — the same sweep as the counter, as a compositor animation. */}
       <div className="absolute inset-x-0 bottom-0 h-px bg-foreground/10">
         <div
-          className={cn("h-full origin-left bg-accent", !reduce && "animate-loader-bar")}
+          // Fades out as the curtain lifts, so it never streaks up the screen.
+          className={cn("h-full origin-left bg-accent", !reduce && "animate-loader-bar", exiting && "opacity-0 transition-opacity duration-small")}
           style={{
             animationDuration: `${COUNT_MS}ms`,
             animationDelay: `${COUNT_DELAY_MS}ms`,

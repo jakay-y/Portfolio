@@ -3,6 +3,14 @@ import { createHeroPointer, type HeroPointer } from "./heroControls";
 
 export const HERO_POSTER_SRC = "/hero-poster.webp";
 
+/** The three.js scene chunk. Calling this early (during the loader) downloads and parses it
+ *  while the main thread is otherwise idle; React.lazy reuses the same promise later. */
+let sceneModule: Promise<typeof import("./HeroScene")> | null = null;
+export function loadHeroScene() {
+  sceneModule ??= import("./HeroScene");
+  return sceneModule;
+}
+
 /** True only for hardware-accelerated WebGL — software rasterisers (no GPU) get the poster. */
 function supportsWebGL() {
   try {
