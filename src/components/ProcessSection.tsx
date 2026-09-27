@@ -69,7 +69,7 @@ export function ProcessSection({ steps }: ProcessSectionProps) {
                 key={step.title}
                 className={cn(
                   "md:flex md:min-h-[55vh] md:flex-col md:justify-center",
-                  "transition-opacity duration-500 motion-reduce:transition-none",
+                  "transition-opacity duration-medium motion-reduce:transition-none",
                   i === active ? "md:opacity-100" : "md:opacity-40",
                 )}
               >

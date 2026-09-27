@@ -26,14 +26,15 @@ export function CapabilitiesBento({ tiles, className }: CapabilitiesBentoProps) 
         <StaggerItem
           key={tile.title}
           className={cn(
-            "group relative overflow-hidden rounded-[2rem] border border-border bg-card/70 p-8 backdrop-blur-sm transition-[transform,box-shadow,border-color] duration-500 ease-smooth hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-[0_30px_60px_-28px_rgba(0,0,0,0.28)]",
+            // Not interactive, so no hover affordance — lifting on hover would promise a click that does nothing.
+            "relative overflow-hidden rounded-[2rem] border border-border bg-card/70 p-8 backdrop-blur-sm",
             tile.span === "wide" && "md:col-span-2",
             tile.span === "full" && "md:col-span-3",
           )}
         >
           <CapabilityGlyph
             type={tile.glyphType ?? i}
-            className="text-muted-foreground transition-colors duration-500 ease-smooth group-hover:text-accent"
+            className="text-muted-foreground"
           />
           <span className="relative mt-6 block text-xs text-faint">0{i + 1}</span>
           <h3 className="relative mt-2 font-heading text-heading-md font-semibold tracking-tight">{tile.title}</h3>

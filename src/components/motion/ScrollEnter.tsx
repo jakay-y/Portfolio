@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 interface ScrollEnterProps {
   children: ReactNode;
@@ -16,6 +16,15 @@ export function ScrollEnter({ children, className }: ScrollEnterProps) {
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const y = useTransform(scrollYProgress, [0, 1], [48, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
+  const reduce = useReducedMotion();
+
+  if (reduce) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div ref={ref} style={{ opacity, y, scale }} className={className}>

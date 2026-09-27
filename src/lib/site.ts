@@ -8,6 +8,9 @@ export const site = {
   locationNote: "working worldwide",
   availability: "Open to projects",
   email: "justicenweke7@gmail.com",
+  /** WhatsApp number in international format, digits only (e.g. "2348012345678").
+   *  Powers every "Prefer WhatsApp?" / WhatsApp link — they stay hidden while this is empty. */
+  whatsapp: "",
   bio: [
     "Started designing professionally about 3 years ago. Since then I've worked with startups, founders, and growing brands across Nigeria and beyond — helping them define what a product should feel like, then building that.",
     "I care about design that actually works for users, not just portfolio-pretty. That means starting with the business and the person on the other side of the screen, not the mockup.",

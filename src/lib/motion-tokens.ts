@@ -1,15 +1,21 @@
+/** The site's single motion voice. Every non-scrubbed animation draws from these. */
 export const motionTokens = {
   duration: {
+    small: 0.4,
+    medium: 0.7,
+    large: 1.1,
     instant: 0.08,
-    fast: 0.3,
-    normal: 0.5,
+    // Legacy names, aliased onto the three-step scale above.
+    fast: 0.4,
+    normal: 0.7,
     slow: 0.7,
-    crawl: 1.0,
+    crawl: 1.1,
   },
   easing: {
-    // matches the single cubic-bezier measured across v0-optimus-delta.vercel.app
-    smooth: [0.4, 0, 0.2, 1],
-    sharp: [0.4, 0, 0.2, 1],
+    premium: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    // Legacy names, aliased onto the premium curve.
+    smooth: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    sharp: [0.22, 1, 0.36, 1] as [number, number, number, number],
     bounce: [0.34, 1.56, 0.64, 1],
     linear: [0, 0, 1, 1],
   },

@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { useRef, type ReactNode, type Ref } from "react";
+import { useRef, type MouseEvent, type ReactNode, type Ref } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useMagnetic } from "@/hooks/use-magnetic";
@@ -8,7 +8,8 @@ interface ButtonProps {
   children: ReactNode;
   href?: string;
   external?: boolean;
-  onClick?: () => void;
+  /** Runs on click; on a link, call `e.preventDefault()` to take over navigation. */
+  onClick?: (e: MouseEvent<HTMLElement>) => void;
   variant?: "primary" | "ghost";
   icon?: boolean;
   className?: string;
@@ -16,11 +17,11 @@ interface ButtonProps {
 
 export function Button({ children, href, external, onClick, variant = "primary", icon = true, className }: ButtonProps) {
   const ref = useRef<HTMLElement>(null);
-  const pull = useMagnetic(ref, 10);
+  const pull = useMagnetic(ref, 6);
   const pullStyle = { transform: `translate(${pull.x}px, ${pull.y}px)` };
 
   const base = cn(
-    "group inline-flex items-center gap-3 rounded-pill py-2 pl-6 pr-2 text-sm font-medium transition-[color,background-color,border-color,transform] duration-200 ease-smooth hover:scale-[1.02] active:scale-[0.97]",
+    "group inline-flex items-center gap-3 rounded-pill py-2 pl-6 pr-2 text-sm font-medium transition-[color,background-color,border-color,transform] duration-small ease-smooth hover:scale-[1.02] active:scale-[0.97]",
     variant === "primary" && "bg-primary text-primary-foreground",
     variant === "ghost" && "border border-border bg-transparent text-foreground hover:border-foreground",
     !icon && "pr-6",
@@ -33,7 +34,7 @@ export function Button({ children, href, external, onClick, variant = "primary",
       {icon && (
         <span
           className={cn(
-            "flex h-7 w-7 items-center justify-center rounded-full transition-transform duration-300 ease-smooth group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105",
+            "flex h-7 w-7 items-center justify-center rounded-full transition-transform duration-small ease-smooth group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:scale-105",
             variant === "primary" ? "bg-white/15" : "bg-foreground/5",
           )}
         >
@@ -52,20 +53,21 @@ export function Button({ children, href, external, onClick, variant = "primary",
           target={external ? "_blank" : undefined}
           rel={external ? "noreferrer" : undefined}
           style={pullStyle}
+          className="inline-flex rounded-pill"
         >
           {content}
         </a>
       );
     }
     return (
-      <Link ref={ref as unknown as Ref<HTMLAnchorElement>} to={href} style={pullStyle}>
+      <Link ref={ref as unknown as Ref<HTMLAnchorElement>} to={href} onClick={onClick} style={pullStyle} className="inline-flex rounded-pill">
         {content}
       </Link>
     );
   }
 
   return (
-    <button ref={ref as unknown as Ref<HTMLButtonElement>} onClick={onClick} style={pullStyle}>
+    <button ref={ref as unknown as Ref<HTMLButtonElement>} onClick={onClick} style={pullStyle} className="inline-flex rounded-pill">
       {content}
     </button>
   );

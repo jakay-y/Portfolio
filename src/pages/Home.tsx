@@ -1,13 +1,15 @@
+import { useRef } from "react";
 import { site } from "@/lib/site";
 import { projects } from "@/data/projects";
-import { WorkDeck } from "@/components/motion/WorkDeck";
+import { ProjectCarousel3D } from "@/components/motion/ProjectCarousel3D";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { Parallax } from "@/components/motion/Parallax";
-import { KineticText } from "@/components/motion/KineticText";
+import { HeroSequence } from "@/components/hero/HeroSequence";
 import { CapabilitiesBento, type BentoTile } from "@/components/CapabilitiesBento";
 import { AuroraBackdrop } from "@/components/AuroraBackdrop";
 import { ScrollEnter } from "@/components/motion/ScrollEnter";
+import { useTrackWorkInView } from "@/hooks/use-work-in-view";
 
 const capabilityTiles: BentoTile[] = site.skills.map((group, i) => ({
   title: group.title,
@@ -17,61 +19,17 @@ const capabilityTiles: BentoTile[] = site.skills.map((group, i) => ({
 }));
 
 export function Home() {
+  const workRef = useRef<HTMLElement>(null);
+  useTrackWorkInView(workRef);
+
+
   return (
     <div>
-      {/* Hero — asymmetric split, staggered offset */}
-      <section className="px-6 pb-section pt-[calc(theme(spacing.section)+2rem)] md:px-12">
-        <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-12">
-          <div className="md:col-span-8">
-            <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-pill border border-border px-3 py-1 font-mono text-eyebrow uppercase text-muted-foreground">
-                {site.availability}
-              </span>
-            </Reveal>
-            <h1 className="mt-6 font-heading text-display-xl font-medium tracking-tight">
-              <KineticText text={site.name} delayStart={0.15} />
-            </h1>
-            <Reveal delay={0.1}>
-              <p className="mt-3 max-w-xl font-heading text-heading-md font-medium text-muted-foreground">
-                {site.role}
-              </p>
-            </Reveal>
-          </div>
+      <HeroSequence />
 
-          <div className="md:col-span-4 md:mt-20">
-            <Reveal delay={0.15}>
-              <p className="text-lg leading-relaxed text-muted-foreground">{site.headline}</p>
-              <p className="mt-6 text-sm text-faint">
-                {site.location} — {site.locationNote}
-              </p>
-            </Reveal>
-          </div>
-        </div>
-
-        <Reveal delay={0.2}>
-          <div className="mx-auto mt-4xl grid max-w-6xl grid-cols-2 gap-6 border-t border-border pt-xl md:grid-cols-4">
-            {site.stats.map((s) => (
-              <div key={s.l}>
-                <p className="font-heading text-3xl font-semibold tracking-tight">{s.n}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{s.l}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      {/* Work deck — cards stack in 3D as you scroll past them */}
-      <section className="pb-section">
-        <div className="mx-auto max-w-6xl px-6 md:px-12">
-          <Reveal>
-            <span className="font-mono text-eyebrow uppercase text-muted-foreground">Selected Work</span>
-            <h2 className="mt-3 font-heading text-heading-lg font-semibold tracking-tight">
-              Products people actually use.
-            </h2>
-          </Reveal>
-        </div>
-
-        <WorkDeck projects={projects} />
+      {/* Work — the hero's "Here's what that looks like." hands straight off to the carousel */}
+      <section ref={workRef} id="work" className="pb-section">
+        <ProjectCarousel3D projects={projects} />
       </section>
 
       {/* Capabilities — asymmetric bento, soft aurora backdrop */}

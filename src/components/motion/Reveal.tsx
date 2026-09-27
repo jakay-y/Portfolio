@@ -1,6 +1,7 @@
 import { useInView } from "motion/react";
 import { useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useIntroDone } from "@/hooks/use-intro-done";
 
 interface RevealProps {
   children: ReactNode;
@@ -16,20 +17,23 @@ interface RevealProps {
  * not its tween engine) to flip a boolean, then a CSS transition does the actual
  * animating. Reliable regardless of any Motion `animate`/`whileInView` quirks.
  */
-export function Reveal({ children, delay = 0, y = 24, blur = false, className, as = "div" }: RevealProps) {
+export function Reveal({ children, delay = 0, y = 16, blur = false, className, as = "div" }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  // Fires once, when ~15% of the element has entered the viewport.
+  const inView = useInView(ref, { once: true, amount: 0.15 });
+  const introDone = useIntroDone();
+  const shown = inView && introDone;
   const Component = as;
 
   return (
     <Component
       ref={ref}
-      className={cn("transition-all duration-700 ease-smooth motion-reduce:transition-none", className)}
+      className={cn("transition-all duration-medium ease-premium motion-reduce:transition-none", className)}
       style={{
         transitionDelay: `${delay}s`,
-        opacity: inView ? 1 : 0,
-        transform: inView ? "translateY(0)" : `translateY(${y}px)`,
-        filter: blur ? (inView ? "blur(0px)" : "blur(8px)") : undefined,
+        opacity: shown ? 1 : 0,
+        transform: shown ? "translateY(0)" : `translateY(${y}px)`,
+        filter: blur ? (shown ? "blur(0px)" : "blur(8px)") : undefined,
       }}
     >
       {children}

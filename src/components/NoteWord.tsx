@@ -44,7 +44,7 @@ export function NoteWord({ label, openId, setOpenId, children }: NoteWordProps) 
         aria-controls={`note-panel-${id}`}
         onClick={() => setOpenId(id)}
         onFocus={() => setOpenId(id)}
-        className="rounded-sm bg-transparent p-0 font-[inherit] text-[inherit] underline decoration-1 underline-offset-[0.28em] decoration-muted-foreground/50 transition-colors duration-200 hover:decoration-foreground focus-visible:outline-none focus-visible:decoration-foreground focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="rounded-sm bg-transparent p-0 font-[inherit] text-[inherit] underline decoration-1 underline-offset-[0.28em] decoration-muted-foreground/50 transition-colors duration-small hover:decoration-foreground focus-visible:outline-none focus-visible:decoration-foreground focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         {label}
       </button>
@@ -54,7 +54,7 @@ export function NoteWord({ label, openId, setOpenId, children }: NoteWordProps) 
         role="group"
         aria-hidden={!isOpen}
         className={cn(
-          "absolute left-1/2 top-full z-50 mt-3 w-[min(20rem,calc(100vw-3rem))] -translate-x-1/2 rounded-[1.25rem] border border-border bg-card p-5 text-left font-sans text-base font-normal normal-case tracking-normal shadow-[0_30px_60px_-30px_rgba(0,0,0,0.35)] transition-all duration-300 ease-smooth motion-reduce:transition-none",
+          "absolute left-1/2 top-full z-50 mt-3 w-[min(20rem,calc(100vw-3rem))] -translate-x-1/2 rounded-[1.25rem] border border-border bg-card p-5 text-left font-sans text-base font-normal normal-case tracking-normal shadow-[0_30px_60px_-30px_rgba(0,0,0,0.35)] transition-all duration-small ease-smooth motion-reduce:transition-none",
           isOpen ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0",
         )}
       >

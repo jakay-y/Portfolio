@@ -7,6 +7,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { AuroraBackdrop } from "@/components/AuroraBackdrop";
 import { LiveTimeWAT } from "@/components/LiveTimeWAT";
 import { useMagnetic } from "@/hooks/use-magnetic";
+import { smoothScrollTo } from "@/lib/smooth-scroll";
 import { cn } from "@/lib/utils";
 
 const footerNav = [
@@ -29,16 +30,16 @@ function CornerBrackets() {
 
 function BackToTop() {
   const ref = useRef<HTMLButtonElement>(null);
-  const pull = useMagnetic(ref, 8);
+  const pull = useMagnetic(ref, 6);
 
   return (
     <button
       ref={ref}
       type="button"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={() => smoothScrollTo(0)}
       style={{ transform: `translate(${pull.x}px, ${pull.y}px)` }}
       aria-label="Back to top"
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors duration-200 hover:border-white"
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors duration-small hover:border-white"
     >
       <ArrowUp className="h-4 w-4" strokeWidth={1.75} />
     </button>
@@ -80,7 +81,7 @@ export function Footer() {
                 <ul className="mt-4 space-y-2.5">
                   {footerNav.map((item) => (
                     <li key={item.href}>
-                      <Link to={item.href} className="text-sm text-white/70 transition-colors duration-200 hover:text-white">
+                      <Link to={item.href} className="text-sm text-white/70 transition-colors duration-small hover:text-white">
                         {item.label}
                       </Link>
                     </li>
@@ -91,15 +92,16 @@ export function Footer() {
               <div>
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/40">[ Socials ]</span>
                 <ul className="mt-4 space-y-2.5">
-                  {site.socials
-                    .filter((s) => s.label !== "Email")
-                    .map((s) => (
+                  {[
+                    ...site.socials.filter((s) => s.label !== "Email"),
+                    ...(site.whatsapp ? [{ label: "WhatsApp", href: `https://wa.me/${site.whatsapp}`, value: "" }] : []),
+                  ].map((s) => (
                       <li key={s.label}>
                         <a
                           href={s.href}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-sm text-white/70 transition-colors duration-200 hover:text-white"
+                          className="text-sm text-white/70 transition-colors duration-small hover:text-white"
                         >
                           {s.label}
                         </a>
@@ -112,7 +114,7 @@ export function Footer() {
                 <span className="font-mono text-xs uppercase tracking-[0.2em] text-white/40">[ Status ]</span>
                 <p className="mt-4 flex items-center gap-2 text-sm text-white/70">
                   <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                    <span className="absolute inline-flex h-full w-full animate-soft-pulse rounded-full bg-accent" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
                   </span>
                   {site.availability}
@@ -136,7 +138,7 @@ export function Footer() {
         </Reveal>
 
         <div className="flex flex-col items-center gap-4 border-t border-white/10 pt-xl text-center sm:flex-row sm:justify-between sm:text-left">
-          <p className="text-xs text-white/30">
+          <p className="text-xs text-white/55">
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
           <BackToTop />

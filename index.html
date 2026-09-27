@@ -2,18 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Justice Nweke — UI/UX Designer, Brand Strategist, Startup Founder. Product design and brand identity for founders, startups, and brands that refuse to be ordinary." />
-    <meta property="og:title" content="Justice Nweke — UI/UX Designer · Brand Strategist · Startup Founder" />
-    <meta property="og:description" content="I design digital experiences that feel inevitable — for founders, startups, and brands that refuse to be ordinary." />
-    <meta property="og:type" content="website" />
-    <title>Justice Nweke — Product &amp; Brand Designer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#fafaf9" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <!-- meta:start — rewritten per route at build time from src/data/seo.ts -->
+    <title>Justice Nweke — Designer &amp; Engineer</title>
+    <meta name="description" content="" />
+    <!-- meta:end -->
+    <link rel="preload" href="/fonts/instrument-sans-normal-400-700.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
+    <!-- Paints the loader's ground before JS boots; LoadingScreen removes it on mount. -->
+    <div id="boot-cover" style="position:fixed;inset:0;z-index:99;background:#eeeae1"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

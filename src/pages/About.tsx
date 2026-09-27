@@ -10,7 +10,7 @@ import { ProcessSection } from "@/components/ProcessSection";
 import { NoteWord } from "@/components/NoteWord";
 import { LiveTimeWAT } from "@/components/LiveTimeWAT";
 import { Button } from "@/components/ui/Button";
-import profilePhoto from "@/assets/profile/justice.jpeg";
+import profilePhoto from "@/assets/profile/justice.webp";
 
 const whatIDoTiles: BentoTile[] = [
   ...site.skills.map((group, i) => ({
@@ -44,6 +44,8 @@ export function About() {
                 <img
                   src={profilePhoto}
                   alt={site.name}
+                  width={985}
+                  height={1767}
                   className="aspect-[4/5] w-full object-cover"
                   loading="eager"
                 />

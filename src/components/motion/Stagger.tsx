@@ -1,6 +1,7 @@
 import { useInView } from "motion/react";
 import { Children, cloneElement, isValidElement, useRef, type ReactElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useIntroDone } from "@/hooks/use-intro-done";
 
 interface StaggerGroupProps {
   children: ReactNode;
@@ -27,16 +28,18 @@ interface StaggerItemProps {
 
 export function StaggerItem({ children, className, index = 0 }: StaggerItemProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, amount: 0.15 });
+  const introDone = useIntroDone();
+  const shown = inView && introDone;
 
   return (
     <div
       ref={ref}
-      className={cn("transition-all duration-500 ease-smooth motion-reduce:transition-none", className)}
+      className={cn("transition-all duration-small ease-premium motion-reduce:transition-none", className)}
       style={{
         transitionDelay: `${index * 0.08}s`,
-        opacity: inView ? 1 : 0,
-        transform: inView ? "translateY(0)" : "translateY(16px)",
+        opacity: shown ? 1 : 0,
+        transform: shown ? "translateY(0)" : "translateY(16px)",
       }}
     >
       {children}

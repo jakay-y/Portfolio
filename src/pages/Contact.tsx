@@ -27,7 +27,10 @@ export function Contact() {
         <Reveal delay={0.15}>
           <p className="mt-xl text-sm text-muted-foreground">
             Prefer email directly?{" "}
-            <a href={`mailto:${site.email}`} className="text-foreground underline underline-offset-4">
+            <a
+              href={`mailto:${site.email}`}
+              className="rounded-sm text-foreground underline decoration-foreground/30 underline-offset-4 transition-[text-decoration-color] duration-small hover:decoration-foreground"
+            >
               {site.email}
             </a>
           </p>
@@ -42,7 +45,7 @@ export function Contact() {
                   href={s.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-pill border border-border px-4 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:border-foreground hover:text-foreground"
+                  className="rounded-pill border border-border px-4 py-2 text-sm text-muted-foreground transition-colors duration-small hover:border-foreground hover:text-foreground"
                 >
                   {s.label} · {s.value}
                 </a>

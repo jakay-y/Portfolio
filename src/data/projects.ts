@@ -1,5 +1,8 @@
 export interface ProjectImage {
   src: string;
+  /** Intrinsic size — rendered as width/height attributes so the page never shifts while images load. */
+  width: number;
+  height: number;
   alt: string;
   label?: string;
   /** Bento layout hint for the case-study gallery — defaults to "half". */
@@ -33,24 +36,24 @@ export interface Project {
   gallery: ProjectImage[];
 }
 
-import cruiseMockupLive from "@/assets/projects/cruise-social/mockup-live.png";
-import cruiseMockupFeed from "@/assets/projects/cruise-social/mockup-feed.png";
+import cruiseMockupLive from "@/assets/projects/cruise-social/mockup-live.webp";
+import cruiseMockupFeed from "@/assets/projects/cruise-social/mockup-feed.webp";
 
-import iziMockupHero from "@/assets/projects/izi/mockup-hero.png";
-import iziMockupShop from "@/assets/projects/izi/mockup-shop.png";
-import iziMockupLifestyle from "@/assets/projects/izi/mockup-lifestyle.png";
-import iziMockupProducts from "@/assets/projects/izi/mockup-products.png";
-import iziHeroTall from "@/assets/projects/izi/hero-tall.png";
-import iziDeckPreview from "@/assets/projects/izi/deck-preview.png";
+import iziMockupHero from "@/assets/projects/izi/mockup-hero.webp";
+import iziMockupShop from "@/assets/projects/izi/mockup-shop.webp";
+import iziMockupLifestyle from "@/assets/projects/izi/mockup-lifestyle.webp";
+import iziMockupProducts from "@/assets/projects/izi/mockup-products.webp";
+import iziHeroTall from "@/assets/projects/izi/hero-tall.webp";
+import iziDeckPreview from "@/assets/projects/izi/deck-preview.webp";
 
-import zechMockupHero from "@/assets/projects/zech-oil-gas/mockup-hero.png";
-import zechMockupScroll from "@/assets/projects/zech-oil-gas/mockup-scroll.png";
-import zechFullPage from "@/assets/projects/zech-oil-gas/full-page.png";
+import zechMockupHero from "@/assets/projects/zech-oil-gas/mockup-hero.webp";
+import zechMockupScroll from "@/assets/projects/zech-oil-gas/mockup-scroll.webp";
+import zechFullPage from "@/assets/projects/zech-oil-gas/full-page.webp";
 
-import verifydMockupHero from "@/assets/projects/verifyd/mockup-hero.png";
-import verifydDashboard from "@/assets/projects/verifyd/shot-dashboard.png";
-import verifydChecking from "@/assets/projects/verifyd/shot-checking.png";
-import verifydResult from "@/assets/projects/verifyd/shot-result.png";
+import verifydMockupHero from "@/assets/projects/verifyd/mockup-hero.webp";
+import verifydDashboard from "@/assets/projects/verifyd/shot-dashboard.webp";
+import verifydChecking from "@/assets/projects/verifyd/shot-checking.webp";
+import verifydResult from "@/assets/projects/verifyd/shot-result.webp";
 
 export const projects: Project[] = [
   {
@@ -79,8 +82,8 @@ export const projects: Project[] = [
     parallax: { src: zechFullPage, imageAspect: 26308 / 5760 },
     span: "wide",
     gallery: [
-      { src: zechMockupHero, alt: "Zech Oil & Gas homepage hero", label: "Homepage", size: "full" },
-      { src: zechMockupScroll, alt: "Zech Oil & Gas full page scroll", label: "Full Page", size: "full" },
+      { src: zechMockupHero, width: 1100, height: 825, alt: "Zech Oil & Gas homepage hero", label: "Homepage", size: "full" },
+      { src: zechMockupScroll, width: 1100, height: 825, alt: "Zech Oil & Gas full page scroll", label: "Full Page", size: "full" },
     ],
   },
   {
@@ -110,10 +113,10 @@ export const projects: Project[] = [
     liveUrl: "https://iziproductions.netlify.app/",
     span: "wide",
     gallery: [
-      { src: iziMockupHero, alt: "IZI homepage hero", label: "Homepage", size: "full" },
-      { src: iziMockupShop, alt: "IZI shop product grid", label: "Shop", size: "half" },
-      { src: iziMockupLifestyle, alt: "IZI real people, real fits campaign section", label: "Campaign", size: "half" },
-      { src: iziMockupProducts, alt: "IZI all products listing page", label: "All Products", size: "full" },
+      { src: iziMockupHero, width: 1100, height: 825, alt: "IZI homepage hero", label: "Homepage", size: "full" },
+      { src: iziMockupShop, width: 1920, height: 1440, alt: "IZI shop product grid", label: "Shop", size: "half" },
+      { src: iziMockupLifestyle, width: 1920, height: 1440, alt: "IZI real people, real fits campaign section", label: "Campaign", size: "half" },
+      { src: iziMockupProducts, width: 1920, height: 1440, alt: "IZI all products listing page", label: "All Products", size: "full" },
     ],
   },
   {
@@ -141,10 +144,10 @@ export const projects: Project[] = [
     image: verifydMockupHero,
     span: "square",
     gallery: [
-      { src: verifydMockupHero, alt: "Verifyd product screens", label: "Overview", size: "full" },
-      { src: verifydDashboard, alt: "Verifyd live verification dashboard", label: "Dashboard", size: "half" },
-      { src: verifydChecking, alt: "Verifyd checking database step", label: "Checking", size: "half" },
-      { src: verifydResult, alt: "Verifyd product verified result screen", label: "Result", size: "full" },
+      { src: verifydMockupHero, width: 1100, height: 825, alt: "Verifyd product screens", label: "Overview", size: "full" },
+      { src: verifydDashboard, width: 1920, height: 1010, alt: "Verifyd live verification dashboard", label: "Dashboard", size: "half" },
+      { src: verifydChecking, width: 1920, height: 1010, alt: "Verifyd checking database step", label: "Checking", size: "half" },
+      { src: verifydResult, width: 1920, height: 1010, alt: "Verifyd product verified result screen", label: "Result", size: "full" },
     ],
   },
   {
@@ -174,8 +177,8 @@ export const projects: Project[] = [
     deckFit: "contain",
     span: "wide",
     gallery: [
-      { src: cruiseMockupLive, alt: "Cruise Social LIVE and Friends tabs", label: "Live & Friends", size: "full" },
-      { src: cruiseMockupFeed, alt: "Cruise Social My Feed and Explore tabs", label: "Feed & Explore", size: "full" },
+      { src: cruiseMockupLive, width: 1100, height: 825, alt: "Cruise Social LIVE and Friends tabs", label: "Live & Friends", size: "full" },
+      { src: cruiseMockupFeed, width: 1100, height: 825, alt: "Cruise Social My Feed and Explore tabs", label: "Feed & Explore", size: "full" },
     ],
   },
 ];
