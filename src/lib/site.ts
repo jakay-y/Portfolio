@@ -12,7 +12,7 @@ export const site = {
    *  Powers every "Prefer WhatsApp?" / WhatsApp link — they stay hidden while this is empty. */
   whatsapp: "",
   bio: [
-    "Started designing professionally about 3 years ago. Since then I've worked with startups, founders, and growing brands across Nigeria and beyond — helping them define what a product should feel like, then building that.",
+    "Started designing professionally about 5 years ago. Since then I've worked with startups, founders, and growing brands across Nigeria and beyond — helping them define what a product should feel like, then building that.",
     "I care about design that actually works for users, not just portfolio-pretty. That means starting with the business and the person on the other side of the screen, not the mockup.",
   ],
   socials: [
@@ -23,8 +23,8 @@ export const site = {
     { label: "TikTok", href: "https://tiktok.com/@jakay_d1", value: "@jakay_d1" },
   ],
   stats: [
-    { n: "3+", l: "Years Experience" },
-    { n: "15+", l: "Projects Shipped" },
+    { n: "5+", l: "Years Experience" },
+    { n: "20+", l: "Projects Shipped" },
     { n: "20+", l: "Happy Clients" },
     { n: "1+", l: "Startup Founded" },
   ],
